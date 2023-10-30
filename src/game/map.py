@@ -1,5 +1,6 @@
 import pygame
 from pytmx.util_pygame import load_pygame
+from components.boss import Boss
 from constants import *
 
 from game.background import BackgroundUI
@@ -143,6 +144,7 @@ class Map(object):
         self.mobs.append(Goombas(1672, 352, False))
         self.mobs.append(Goombas(5570, 352, False))
         self.mobs.append(Goombas(5620, 352, False))
+        self.mobs.append(Boss(800, 352, False))
         print("========11=======")
 
         self.map[21][8].bonus = 'mushroom'
@@ -252,6 +254,9 @@ class Map(object):
 
     def spawn_flower(self, x, y):
         self.mobs.append(Flower(x, y))
+
+    def spawn_boss(self, x, y, move_direction):
+        self.mobs.append(Boss(x, y, move_direction))
 
     def spawn_debris(self, x, y, type):
         if type == 0:
