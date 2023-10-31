@@ -134,7 +134,7 @@ class Event(object):
 
                     elif pygame.time.get_ticks() >= self.time + self.delay:
                         core.get_mm().currentGameState = 'Loading'
-                        core.get_mm().oLoadingMenu.set_text_and_type('BY S&D :)', False)
+                        core.get_mm().oLoadingMenu.set_text_and_type('YOU WON!', False)
                         core.get_mm().oLoadingMenu.update_time()
                         core.get_sound().play('game_over', 0, 0.5)
 
