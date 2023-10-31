@@ -26,6 +26,8 @@ class Boss(Entity):
         self.images.append(pygame.transform.flip(self.images[0], 0, 180))
 
         self.fire_timer = 0
+
+        self.heart = 3
         
 
     def update_image(self):
@@ -79,3 +81,9 @@ class Boss(Entity):
             core.screen.blit(pygame.transform.flip(self.images[self.current_image], True, False), core.get_map().get_camera().apply(self))
         else:
             core.screen.blit(self.images[self.current_image], core.get_map().get_camera().apply(self))
+
+    def die(self, core, instantly, crushed):
+        self.heart -= 1
+        if (self.heart <= 0):
+            core.get_map().get_mobs().remove(self)
+            
