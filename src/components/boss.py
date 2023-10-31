@@ -25,16 +25,23 @@ class Boss(Entity):
         ]
         self.images.append(pygame.transform.flip(self.images[0], 0, 180))
 
+        self.fire_timer = 0
+        
+
     def update_image(self):
         self.image_tick += 1
-        if self.image_tick == 14:
-            self.current_image = 1
-        elif self.image_tick == 28:
+        if self.image_tick % 15 == 0:
+            self.current_image += 1
+        if self.current_image > 3:
             self.current_image = 0
             self.image_tick = 0
 
     def check_collision_with_player(self, core):
-        pass
+        if self.collision:
+            if self.rect.colliderect(core.get_map().get_player().rect):
+                if self.state != -1:
+                    if not core.get_map().get_player().unkillable:
+                        core.get_map().get_player().set_powerlvl(0, core)
 
     def check_collision_with_mobs(self, core):
         pass
@@ -62,5 +69,13 @@ class Boss(Entity):
                 self.rect.y += self.y_velocity
                 self.check_map_borders(core)
 
+        if pygame.time.get_ticks() - self.fire_timer >= 2000:
+            self.fire_timer = pygame.time.get_ticks()
+            core.get_map().spawn_flame(self.rect.x, self.rect.y, self.x_velocity > 0)
+
+
     def render(self, core):
-        core.screen.blit(self.images[self.current_image], core.get_map().get_camera().apply(self))
+        if self.x_velocity > 0:
+            core.screen.blit(pygame.transform.flip(self.images[self.current_image], True, False), core.get_map().get_camera().apply(self))
+        else:
+            core.screen.blit(self.images[self.current_image], core.get_map().get_camera().apply(self))

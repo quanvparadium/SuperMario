@@ -1,6 +1,7 @@
 import pygame
 from pytmx.util_pygame import load_pygame
 from components.boss import Boss
+from components.flame import Flame
 from constants import *
 
 from game.background import BackgroundUI
@@ -266,6 +267,9 @@ class Map(object):
 
     def spawn_fireball(self, x, y, move_direction):
         self.projectiles.append(Fireball(x, y, move_direction))
+
+    def spawn_flame(self, x, y, move_direction):
+        self.projectiles.append(Flame(x, y, move_direction))
 
     def spawn_score_text(self, x, y, score=None):
         """
