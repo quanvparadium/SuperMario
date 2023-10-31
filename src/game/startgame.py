@@ -107,7 +107,24 @@ NUMBER_OF_LEVELS = 32
 LEVEL_PER_ROW = 8
 DARK_BLUE = (0,0,139)
 FONT_BOLD = pygame_menu.font.FONT_OPEN_SANS_BOLD
+slider_value = 50
 
+def handle_slider_change(value):
+    global slider_value
+    print(f"Slider value changed to {value}")
+    slider_value = value / 100
+
+def level_chosen_btn_effect(is_select,widget, menu):
+    if is_select:
+        widget.set_font(font_size=32,color='white',
+                    font=FONT_BOLD,
+                    background_color=DARK_BLUE,readonly_color=LIGHT_BLUE,
+                    readonly_selected_color='white',selected_color='red',)
+    else:
+        widget.set_font(font_size=32,color='white',
+                    font=FONT_BOLD,
+                    background_color=LIGHT_BLUE,readonly_color=LIGHT_BLUE,
+                    readonly_selected_color='white',selected_color='red',)
 class StartGame:
     def __init__(self):
         pygame.init()
@@ -126,13 +143,13 @@ class StartGame:
                             mouse_motion_selection=True,)
         self.mainmenu.add.button('PLAY GAME', self.playgame_menu)
         self.mainmenu.add.button('OPTION', self.option_menu)
-        # self.mainmenu.add.button('ABOUT', self.about_menu)
+        self.mainmenu.add.button('ABOUT', self.about_menu)
         self.mainmenu.add.button('QUIT', pygame_menu.events.EXIT) 
 
     def free_play_chosen_level(self, id_map: str):
-        global GAME, CURRENT_STATE
+        global GAME, CURRENT_STATE, slider_value
         self.mainmenu.disable()
-        GAME = Core(self.surface, W_HEIGHT_SIZE, W_WIDTH_SIZE, id_map)
+        GAME = Core(self.surface, W_HEIGHT_SIZE, W_WIDTH_SIZE, id_map, volume=slider_value)
         CURRENT_STATE = 'INGAME'
 
     def index_to_level(self, index):
@@ -143,17 +160,7 @@ class StartGame:
         else:
             return f'{big_level+1}-{small_level}'
 
-    def level_chosen_btn_effect(is_select,widget):
-        if is_select:
-            widget.set_font(font_size=32,color='white',
-                        font=FONT_BOLD,
-                        background_color=DARK_BLUE,readonly_color=LIGHT_BLUE,
-                        readonly_selected_color='white',selected_color='red',)
-        else:
-            widget.set_font(font_size=32,color='white',
-                        font=FONT_BOLD,
-                        background_color=LIGHT_BLUE,readonly_color=LIGHT_BLUE,
-                        readonly_selected_color='white',selected_color='red',)
+
 
     def _create_playgame_menu(self):
         self.playgame_menu = pygame_menu.Menu('SUPER MARIO', W_WIDTH_SIZE, W_HEIGHT_SIZE,
@@ -166,7 +173,7 @@ class StartGame:
                             onclose=None,
                             theme=CUSTOME_THEME,
                             mouse_motion_selection=True,)
-        self.free_play_menu.add.button('WORLD 1 - 1', self.free_play_chosen_level, '1-1')
+        # self.free_play_menu.add.button('WORLD 1 - 1', self.free_play_chosen_level, '1-1')
         self.free_play_menu.add.label('LEVELS',font_size=40)
 
         # create level table structure
@@ -179,14 +186,14 @@ class StartGame:
                                                 self.free_play_chosen_level,
                                                 self.index_to_level(level_id))
                 btn.set_margin(0, 0)
-                btn.set_padding((4,8))
+                btn.set_padding((0,8))
                 btn.set_selection_effect(pygame_menu.widgets.NoneSelection())
-                # btn.set_selection_callback(self.level_chosen_btn_effect)
+                btn.set_selection_callback(level_chosen_btn_effect)
 
                 f.pack(btn,align='align-center')
 
 
-        self.playgame_menu.add.button('PLAY 1-1', self.free_play_menu)
+        self.playgame_menu.add.button('CHOOSE LEVEL', self.free_play_menu)
         self.playgame_menu.add.button('BACK', pygame_menu.events.BACK)
 
     def _create_option_menu(self):
@@ -194,18 +201,35 @@ class StartGame:
                             onclose=None,
                             theme=CUSTOME_THEME,
                             mouse_motion_selection=True,)
-        self.option_menu.add.progress_bar("Sound: ", progressbar_id = "1", default=0, width = 150)
+        self.option_menu.add.range_slider("Sound: ", default=50, range_values=(0, 100), increment=1, onchange=handle_slider_change)
+        # print(return_a)
+
+    def _create_about_menu(self):
+        self.about_menu = pygame_menu.Menu('SUPER MARIO', W_WIDTH_SIZE, W_HEIGHT_SIZE,
+                            onclose=None,
+                            theme=CUSTOME_THEME,
+                            mouse_motion_selection=True,)
+        # self.about_menu.add.progress_bar("Sound: ", progressbar_id = "1", default=0, width = 150)
+        self.about_menu.add.label('ABOUT',font_size=40).translate(0, -40)
+
+        self.about_menu.add.label('Super Mario Bios',font_size=25).translate(0, -20)
+
+        self.about_menu.add.label('Author:      Nguyen Phan Anh Tuan         -  2012348',font_size=20)
+        self.about_menu.add.label('                     Vo Phan Anh Quan                 -  2014285',font_size=20)
+
+        self.about_menu.add.button('BACK', pygame_menu.events.BACK, font_size=24).translate(0, 40)        
 
 
     def run(self):
         global CURRENT_STATE, GAME
         self._create_playgame_menu()
         self._create_option_menu()
-        # self._create
+        self._create_about_menu()
         self._create_mainmenu()
         while self.running:
             # print("BEFORE RUNNING")
             events = pygame.event.get()
+            # print(slider_value)
             # print(CURRENT_STATE)
             if CURRENT_STATE == 'INGAME':
                 GAME.main_loop(events)
@@ -224,7 +248,7 @@ class StartGame:
 
             try:
                 self.mainmenu.mainloop(self.surface)
-                print("COMBACK MAINLOOP")
+                # print("COMBACK MAINLOOP")
             except:
                 # print("MAIN DISABLED", pygame.time.get_ticks())
                 pass

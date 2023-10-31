@@ -54,14 +54,14 @@ class Platform(object):
         self.currentImage = 3
 
         if self.bonus == 'mushroom':
-            core.get_sound().play('mushroom_appear', 0, 0.5)
+            core.get_sound().play('mushroom_appear', 0, core.get_volume())
             if core.get_map().get_player().powerLVL == 0:
                 core.get_map().spawn_mushroom(self.rect.x, self.rect.y)
             else:
                 core.get_map().spawn_flower(self.rect.x, self.rect.y)
 
         elif self.bonus == 'coin':
-            core.get_sound().play('coin', 0, 0.5)
+            core.get_sound().play('coin', 0, core.get_volume())
             core.get_map().spawn_debris(self.rect.x + 8, self.rect.y - 32, 1)
             core.get_map().get_player().add_coins(1)
             core.get_map().get_player().add_score(200)

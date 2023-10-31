@@ -42,7 +42,7 @@ class Koopa(Entity):
                 if self.state != -1:
                     if core.get_map().get_player().y_velocity > 0:
                         self.change_state(core)
-                        core.get_sound().play('kill_mob', 0, 0.5)
+                        core.get_sound().play('kill_mob', 0, core.get_volume())
                         core.get_map().get_player().reset_jump()
                         core.get_map().get_player().jump_on_mob()
                     else:

@@ -45,7 +45,7 @@ class Event(object):
 
         core.get_sound().stop('overworld')
         core.get_sound().stop('overworld_fast')
-        core.get_sound().play('death', 0, 0.5)
+        core.get_sound().play('death', 0, core.get_volume())
 
         # Sets "dead" sprite
         core.get_map().get_player().set_image(len(core.get_map().get_player().sprites))
@@ -63,7 +63,7 @@ class Event(object):
         core.get_sound().stop('overworld')
         core.get_sound().stop('overworld_fast')
         print("OK")
-        core.get_sound().play('level_end', 0, 0.5)
+        core.get_sound().play('level_end', 0, core.get_volume())
 
         core.get_map().get_player().set_image(5)
         core.get_map().get_player().x_velocity = 1
@@ -92,12 +92,12 @@ class Event(object):
                     core.get_map().get_player().reset_move()
                     core.get_map().get_player().reset_jump()
                     core.get_map().reset(False)
-                    core.get_sound().play('overworld', 9999999, 0.5)
+                    core.get_sound().play('overworld', 9999999, core.get_volume())
                 else:
                     core.get_mm().currentGameState = 'Loading'
                     core.get_mm().oLoadingMenu.set_text_and_type('GAME OVER', False)
                     core.get_mm().oLoadingMenu.update_time()
-                    core.get_sound().play('game_over', 0, 0.5)
+                    core.get_sound().play('game_over', 0, core.get_volume())
 
         # Flag win
         elif self.type == 1:
@@ -123,7 +123,7 @@ class Event(object):
                 if core.get_map().time > 0:
                     self.score_tick += 1
                     if self.score_tick % 10 == 0:
-                        core.get_sound().play('scorering', 0, 0.5)
+                        core.get_sound().play('scorering', 0, core.get_volume())
 
                     core.get_map().time -= 1
                     core.get_map().get_player().add_score(50)
@@ -136,5 +136,5 @@ class Event(object):
                         core.get_mm().currentGameState = 'Loading'
                         core.get_mm().oLoadingMenu.set_text_and_type('YOU WON!', False)
                         core.get_mm().oLoadingMenu.update_time()
-                        core.get_sound().play('game_over', 0, 0.5)
+                        core.get_sound().play('game_over', 0, core.get_volume())
 

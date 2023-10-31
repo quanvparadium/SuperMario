@@ -35,13 +35,13 @@ class Goombas(Entity):
                 self.image_tick = 0
                 self.current_image = 2
                 self.state = -1
-                core.get_sound().play('kill_mob', 0, 0.5)
+                core.get_sound().play('kill_mob', 0, core.get_volume())
                 self.collision = False
 
             else:
                 self.y_velocity = -4
                 self.current_image = 3
-                core.get_sound().play('shot', 0, 0.5)
+                core.get_sound().play('shot', 0, core.get_volume())
                 self.state = -1
                 self.collision = False
 

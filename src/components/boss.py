@@ -48,6 +48,7 @@ class Boss(Entity):
     def check_collision_with_mobs(self, core):
         pass
 
+
     def update(self, core):
         if self.state == 0:
             self.update_image()
@@ -86,4 +87,5 @@ class Boss(Entity):
         self.heart -= 1
         if (self.heart <= 0):
             core.get_map().get_mobs().remove(self)
+            core.get_map().spawn_tube(175, 8)
             

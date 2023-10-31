@@ -150,9 +150,12 @@ class Player(object):
                 self.already_jumped = True
                 self.next_jump_time = pygame.time.get_ticks() + 750
                 if self.powerLVL >= 1:
-                    core.get_sound().play('big_mario_jump', 0, 0.5)
+                    core.get_sound().play('big_mario_jump', 0, core.get_volume())
+                    # print("PLAY BIG MARIO: ",core.get_volume())
                 else:
-                    core.get_sound().play('small_mario_jump', 0, 0.5)
+                    core.get_sound().play('small_mario_jump', 0, core.get_volume())
+                    # print("SMALL BIG MARIO: ",core.get_volume())
+
 
         # Fireball shoot and fast moving
         self.fast_moving = False
@@ -325,7 +328,7 @@ class Player(object):
     def activate_block_action(self, core, block):
         # Question Block
         if block.typeID == 22:
-            core.get_sound().play('block_hit', 0, 0.5)
+            core.get_sound().play('block_hit', 0, core.get_volume())
             if not block.isActivated:
                 block.spawn_bonus(core)
 
@@ -333,10 +336,10 @@ class Player(object):
         elif block.typeID == 23:
             if self.powerLVL == 0:
                 block.shaking = True
-                core.get_sound().play('block_hit', 0, 0.5)
+                core.get_sound().play('block_hit', 0, core.get_volume())
             else:
                 block.destroy(core)
-                core.get_sound().play('brick_break', 0, 0.5)
+                core.get_sound().play('brick_break', 0, core.get_volume())
                 self.add_score(50)
 
     def reset(self, reset_all):
@@ -392,27 +395,27 @@ class Player(object):
 
         elif self.powerLVL == 0 and self.powerLVL < power_lvl:
             self.powerLVL = 1
-            core.get_sound().play('mushroom_eat', 0, 0.5)
+            core.get_sound().play('mushroom_eat', 0, core.get_volume())
             core.get_map().spawn_score_text(self.rect.x + 16, self.rect.y, score=1000)
             self.add_score(1000)
             self.inLevelUpAnimation = True
             self.inLevelUpAnimationTime = 61
 
         elif self.powerLVL == 1 and self.powerLVL < power_lvl:
-            core.get_sound().play('mushroom_eat', 0, 0.5)
+            core.get_sound().play('mushroom_eat', 0, core.get_volume())
             core.get_map().spawn_score_text(self.rect.x + 16, self.rect.y, score=1000)
             self.add_score(1000)
             self.powerLVL = 2
 
         elif self.powerLVL > power_lvl:
-            core.get_sound().play('pipe', 0, 0.5)
+            core.get_sound().play('pipe', 0, core.get_volume())
             self.inLevelDownAnimation = True
             self.inLevelDownAnimationTime = 200
             self.unkillable = True
             self.unkillableTime = 200
 
         else:
-            core.get_sound().play('mushroom_eat', 0, 0.5)
+            core.get_sound().play('mushroom_eat', 0, core.get_volume())
             core.get_map().spawn_score_text(self.rect.x + 16, self.rect.y, score=1000)
             self.add_score(1000)
 
@@ -488,7 +491,7 @@ class Player(object):
 
     def shoot_fireball(self, core, x, y, move_direction):
         core.get_map().spawn_fireball(x, y, move_direction)
-        core.get_sound().play('fireball', 0, 0.5)
+        core.get_sound().play('fireball', 0, core.get_volume())
         self.next_fireball_time = pygame.time.get_ticks() + 400
 
     def add_coins(self, count):

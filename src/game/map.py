@@ -47,9 +47,9 @@ class Map(object):
 
         self.textures = {}
         self.id_map = world_num
-        print("========1=======")
+        # print("========1=======")
         self.loadWorld_11()
-        print("========2=======")
+        # print("========2=======")
 
         self.is_mob_spawned = [False, False]
         self.score_for_killing_mob = 100
@@ -59,17 +59,17 @@ class Map(object):
         self.tick = 0
         self.time = 400
 
-        print("========3=======")
+        # print("========3=======")
         self.oPlayer = Player(x_pos=128, y_pos=351)
-        print("========4=======")
+        # print("========4=======")
         self.oCamera = Camera(self.mapSize[0] * 64, 14)
-        print("========5=======")
+        # print("========5=======")
         self.oEvent = Event()
-        print("========6=======")
+        # print("========6=======")
         self.oBackgroundUI = BackgroundUI()
 
     def loadWorld_11(self):
-        print("========6.5=======")
+        # print("========6.5=======")
         import os
         print(self.id_map)
         # if not os.path.exists(os.path.join(os.getcwd(), f"assets/worlds/{self.id_map}/W{self.id_map.replace('-', '')}.tmx'")):
@@ -86,11 +86,11 @@ class Map(object):
 
         self.sky = pygame.Surface((W_WIDTH_SIZE, W_HEIGHT_SIZE))
         self.sky.fill((pygame.Color('#5c94fc')))
-        print("========7=======")
+        # print("========7=======")
 
         # 2D List"
         self.map = [[0] * tmx_data.height for i in range(tmx_data.width)]
-        print("========8=======")
+        # print("========8=======")
 
         layer_num = 0
         for layer in tmx_data.visible_layers:
@@ -127,7 +127,7 @@ class Map(object):
                             self.map[x][y] = BGObject(x * tmx_data.tileheight, y * tmx_data.tilewidth, image)
                             self.obj_bg.append(self.map[x][y])
             layer_num += 1
-        print("========9=======")
+        # print("========9=======")
 
         # Tubes
         self.spawn_tube(28, 10)
@@ -135,28 +135,35 @@ class Map(object):
         self.spawn_tube(46, 8)
         self.spawn_tube(55, 8)
         self.spawn_tube(163, 10)
-        self.spawn_tube(179, 10)
+        self.spawn_tube(179, 4)
 
-        print("========10=======")
+        # print("========10=======")
         # Mobs
         self.mobs.append(Goombas(736, 352, False))
+        self.mobs.append(Goombas(800, 352, False))
         self.mobs.append(Goombas(1295, 352, True))
         self.mobs.append(Goombas(1632, 352, False))
         self.mobs.append(Goombas(1672, 352, False))
-        self.mobs.append(Goombas(5570, 352, False))
-        self.mobs.append(Goombas(5620, 352, False))
-        self.mobs.append(Boss(800, 352, False))
-        print("========11=======")
+        self.mobs.append(Goombas(5184, 352, False))
+        self.mobs.append(Goombas(5440, 250, False))
+
+
+        # self.mobs.append(Goombas(5570, 358, False))
+
+        # self.mobs.append(Goombas(5620, 352, False))
+        self.mobs.append(Boss(5620, 352, False))
+
+        # print("========11=======")
 
         self.map[21][8].bonus = 'mushroom'
-        print("========12=======")
+        # print("========12=======")
         self.map[78][8].bonus = 'mushroom'
-        print("========13=======")
+        # print("========13=======")
         self.map[109][4].bonus = 'mushroom'
 
-        print("========14=======")
+        # print("========14=======")
         self.flag = Flag(6336, 48)
-        print("========14=======")
+        # print("========14=======")
 
 
     def reset(self, reset_all):
