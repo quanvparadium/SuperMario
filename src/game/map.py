@@ -131,7 +131,7 @@ class Map(object):
 
         # Tubes
         self.spawn_tube(28, 10)
-        self.spawn_tube(37, 9)
+        # self.spawn_tube(37, 9)
         self.spawn_tube(46, 8)
         self.spawn_tube(55, 8)
         self.spawn_tube(163, 10)
@@ -140,7 +140,11 @@ class Map(object):
         # print("========10=======")
         # Mobs
         self.mobs.append(Goombas(736, 352, False))
+        self.mobs.append(Goombas(512, 250, False))
+
         self.mobs.append(Goombas(800, 352, False))
+        self.mobs.append(Goombas(1184, 290, False))
+
         self.mobs.append(Goombas(1295, 352, True))
         self.mobs.append(Goombas(1632, 352, False))
         self.mobs.append(Goombas(1672, 352, False))
@@ -156,6 +160,8 @@ class Map(object):
         # print("========11=======")
 
         self.map[21][8].bonus = 'mushroom'
+        self.map[42][8].bonus = 'mushroom'
+
         # print("========12=======")
         self.map[78][8].bonus = 'mushroom'
         # print("========13=======")
